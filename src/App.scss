@@ -1,0 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import "./components/films/films";
+@import "./components/navbar/navbar";
+@import "./components/searchbar/searchbar";

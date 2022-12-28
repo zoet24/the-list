@@ -1,0 +1,12 @@
+{
+  // Make VS Code format files when you save them automatically
+  "editor.formatOnSave": true,
+  // Set default code formatters
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+
+  // Automatically detect file indentation.
+  "editor.detectIndentation": true,
+
+  // Bracket colourisation
+  "editor.bracketPairColorization.enabled": true
+}

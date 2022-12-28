@@ -1,0 +1,19 @@
+.searchbar {
+  @apply fixed z-10 w-full bg-black/50 rounded-b-[25px] rounded-t-none flex items-center justify-center;
+
+  input {
+    @apply h-12 w-full m-3 p-2 rounded-[25px];
+
+    &:focus-visible {
+      @apply outline-0;
+    }
+
+    &:focus-visible + .icon svg {
+      transform: scale(1.1);
+    }
+  }
+
+  .icon {
+    @apply absolute right-5 px-0;
+  }
+}
