@@ -30,7 +30,7 @@ export const ContextProvider = ({ children }) => {
   // Query OMDB API with specific film
   const getFilmRequest = async (film) => {
     const filmImdb = film.imdbID;
-    const urlImdb = `http://www.omdbapi.com/?apikey=be2c0c1&i=${filmImdb}`;
+    const urlImdb = `http://www.omdbapi.com/?apikey=be2c0c1&i=${filmImdb}&plot=long`;
     const responseImdb = await fetch(urlImdb);
     const responseJsonImdb = await responseImdb.json();
 

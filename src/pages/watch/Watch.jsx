@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import AppContext from "../../context/AppContext";
 
-import FilmCardSimple from "../../components/films/FilmCardSimple";
+import FilmCard from "../../components/films/FilmCard";
 
 function Watch() {
   const { watchFilms } = useContext(AppContext);
@@ -9,7 +9,7 @@ function Watch() {
   return (
     <div className="films">
       {watchFilms.map((film, index) => (
-        <FilmCardSimple film={film} key={index} />
+        <FilmCard film={film} key={index} content />
       ))}
     </div>
   );

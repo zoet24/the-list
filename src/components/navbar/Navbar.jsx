@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { AiOutlineSearch, AiFillEye, AiFillHeart } from "react-icons/ai";
 
 function Navbar() {
-  const [activeLink, setActiveLink] = useState("");
+  const [activeLink, setActiveLink] = useState("/");
   const location = useLocation();
 
   useEffect(() => {

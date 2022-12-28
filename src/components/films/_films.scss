@@ -40,14 +40,6 @@
   box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px,
     rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
 
-  &:hover {
-    transform: scale(1.01);
-
-    .film__content {
-      max-height: 250px;
-    }
-  }
-
   &__title {
     @apply w-full text-3xl tracking-widest leading-6 text-white;
 
@@ -59,9 +51,8 @@
   }
 
   &__content {
-    @apply max-h-0 overflow-hidden;
+    @apply overflow-hidden;
     transition: 0.3s ease-in-out;
-    max-height: 1000px;
 
     > * {
       @apply px-3 pb-2;
@@ -69,7 +60,7 @@
   }
 
   &__meta {
-    @apply flex space-x-2 pt-3;
+    @apply pt-2;
 
     &--year {
       @apply border-r border-black pr-2;
@@ -79,7 +70,7 @@
       @apply border-r border-black px-2;
     }
 
-    &--director {
+    &--imdb {
       @apply pl-2;
     }
   }
@@ -107,6 +98,8 @@
   }
 
   &:hover {
+    transform: scale(1.01);
+
     .icon-overlay {
       @apply bg-black/50;
 
