@@ -34,8 +34,6 @@ export const ContextProvider = ({ children }) => {
     const responseImdb = await fetch(urlImdb);
     const responseJsonImdb = await responseImdb.json();
 
-    console.log(responseJsonImdb);
-
     return responseJsonImdb;
   };
 
@@ -56,31 +54,38 @@ export const ContextProvider = ({ children }) => {
     return reorderedFilmArr;
   };
 
-  // Update films on watch list (http://www.omdbapi.com/?i=tt0111161)
+  // Update films on watch list
   const updateWatchFilm = async (film) => {
     const filmData = await getFilmRequest(film);
-    console.log(watchFilms);
+    const isFilmInList = await watchFilms.filter(
+      (item) => item.Title === filmData.Title
+    );
 
-    if (!watchFilms.includes(filmData)) {
+    if (isFilmInList.length == 0) {
       const newWatchList = watchFilms.concat(filmData);
       setWatchFilms(newWatchList);
-      console.log("Does not include");
     } else {
-      const newWatchList = watchFilms.filter((f) => f !== filmData);
+      const newWatchList = watchFilms.filter(
+        (item) => item.Title !== filmData.Title
+      );
       setWatchFilms(newWatchList);
-      console.log("Does include");
     }
   };
 
-  // Update films on fav list
+  // Update films on watch list
   const updateFavFilm = async (film) => {
     const filmData = await getFilmRequest(film);
+    const isFilmInList = await favFilms.filter(
+      (item) => item.Title === filmData.Title
+    );
 
-    if (!favFilms.includes(filmData)) {
+    if (isFilmInList.length == 0) {
       const newFavList = favFilms.concat(filmData);
       setFavFilms(newFavList);
     } else {
-      const newFavList = favFilms.filter((f) => f !== filmData);
+      const newFavList = favFilms.filter(
+        (item) => item.Title !== filmData.Title
+      );
       setFavFilms(newFavList);
     }
   };
@@ -96,8 +101,6 @@ export const ContextProvider = ({ children }) => {
       // console.log("Not loading");
       searchFilmRequest(query);
     }, 500);
-
-    // console.log(watchFilms, favFilms);
 
     setTimeoutId(newTimeoutId);
   }, [query, watchFilms, favFilms]);
