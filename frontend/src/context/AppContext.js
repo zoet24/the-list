@@ -5,6 +5,8 @@ const AppContext = createContext();
 
 export const ContextProvider = ({ children }) => {
   const [query, setQuery] = useState("");
+  const [watchQuery, setWatchQuery] = useState("");
+  const [favQuery, setFavQuery] = useState("");
   const [timeoutId, setTimeoutId] = useState(null);
   const [films, setFilms] = useState([]);
   const [watchFilms, setWatchFilms] = useState([]);
@@ -64,11 +66,15 @@ export const ContextProvider = ({ children }) => {
     if (isFilmInList.length == 0) {
       const newWatchList = watchFilms.concat(filmData);
       setWatchFilms(newWatchList);
+
+      console.log(newWatchList);
     } else {
       const newWatchList = watchFilms.filter(
         (item) => item.Title !== filmData.Title
       );
       setWatchFilms(newWatchList);
+
+      console.log(newWatchList);
     }
   };
 
@@ -90,6 +96,11 @@ export const ContextProvider = ({ children }) => {
     }
   };
 
+  // Query watch films with watch search input
+  const searchWatchFilms = (watchQuery) => {
+    console.log(watchQuery);
+  };
+
   useEffect(() => {
     if (timeoutId) {
       // console.log("Loading");
@@ -100,21 +111,26 @@ export const ContextProvider = ({ children }) => {
     const newTimeoutId = setTimeout(() => {
       // console.log("Not loading");
       searchFilmRequest(query);
+      searchWatchFilms(watchQuery);
     }, 500);
 
     setTimeoutId(newTimeoutId);
-  }, [query, watchFilms, favFilms]);
+  }, [query, watchQuery, watchFilms, favFilms]);
 
   return (
     <AppContext.Provider
       value={{
         query,
+        watchQuery,
+        favQuery,
         films,
         watchFilms,
         favFilms,
         updateWatchFilm,
         updateFavFilm,
         setQuery,
+        setWatchQuery,
+        setFavQuery,
       }}
     >
       {children}

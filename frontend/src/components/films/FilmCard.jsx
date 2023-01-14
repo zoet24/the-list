@@ -2,6 +2,7 @@ import { AiFillEye, AiFillHeart, AiOutlineStar } from "react-icons/ai";
 import React, { useContext } from "react";
 import AppContext from "../../context/AppContext";
 
+// Content is a boolean that is passed into the FilmCard component to show/hide additional content like director, genres. etc
 function FilmCard({ film, content }) {
   const { updateFavFilm, updateWatchFilm, watchFilms, favFilms } =
     useContext(AppContext);
@@ -9,7 +10,6 @@ function FilmCard({ film, content }) {
   const isFilmInWatchList = watchFilms.filter(
     (item) => item.Title === film.Title
   );
-
   const isFilmInFavList = favFilms.filter((item) => item.Title === film.Title);
 
   return (

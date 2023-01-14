@@ -1,0 +1,24 @@
+.icon {
+  @apply px-2 py-3 cursor-pointer;
+
+  svg {
+    @apply w-9 h-9 rounded-full p-1.5 border-2 border-white text-white;
+
+    transition: ease-in-out 0.3s;
+  }
+
+  &--black {
+    svg {
+      @apply border-black text-black;
+    }
+  }
+
+  &:hover,
+  &--active {
+    svg {
+      @apply bg-white text-black;
+
+      transform: scale(1.1);
+    }
+  }
+}

@@ -3,5 +3,10 @@
 @tailwind utilities;
 
 @import "./components/films/films";
+@import "./components/icons/icons";
 @import "./components/navbar/navbar";
 @import "./components/searchbar/searchbar";
+
+body {
+  min-height: 100vh;
+}
