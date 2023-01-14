@@ -81,6 +81,19 @@ router.post(
   })
 );
 
+// watchList Routes
+router.get(
+  "/:userId/watchList",
+  asyncHandler(async (req, res, next) => {
+    try {
+      const { watchList } = await User.findById(req.params.userId);
+      res.status(200).json(watchList);
+    } catch (error) {
+      next(error);
+    }
+  })
+);
+
 router.put(
   "/:userId/watchList",
   asyncHandler(async (req, res, next) => {
@@ -89,6 +102,19 @@ router.put(
         new: true,
       });
       res.status(200).json(user);
+    } catch (error) {
+      next(error);
+    }
+  })
+);
+
+// favList Routes
+router.get(
+  "/:userId/favList",
+  asyncHandler(async (req, res, next) => {
+    try {
+      const { favList } = await User.findById(req.params.userId);
+      res.status(200).json(favList);
     } catch (error) {
       next(error);
     }
