@@ -21,6 +21,8 @@ export const ContextProvider = ({ children }) => {
       const response = await fetch(url);
       const responseJson = await response.json();
 
+      console.log(responseJson);
+
       if (responseJson.Search) {
         setFilms(reorderFilms(responseJson.Search));
       } else {
@@ -35,6 +37,8 @@ export const ContextProvider = ({ children }) => {
     const urlImdb = `http://www.omdbapi.com/?apikey=be2c0c1&i=${filmImdb}&plot=long`;
     const responseImdb = await fetch(urlImdb);
     const responseJsonImdb = await responseImdb.json();
+
+    console.log(responseJsonImdb);
 
     return responseJsonImdb;
   };
