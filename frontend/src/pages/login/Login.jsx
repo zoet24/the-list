@@ -27,7 +27,9 @@ function Login() {
       const response = await axios.post("/api/users/login", formData);
 
       if (response.data) {
+        console.log(response.data);
         setUser({
+          _id: response.data._id,
           username: response.data.username,
           token: response.data.token,
         });

@@ -12,6 +12,8 @@ function FilmCard({ film, content }) {
   );
   const isFilmInFavList = favFilms.filter((item) => item.Title === film.Title);
 
+  // console.log(film);
+
   return (
     <div className={`film${content ? " film--content" : ""}`}>
       <div className="relative">
@@ -51,7 +53,7 @@ function FilmCard({ film, content }) {
         </div>
         {content && (
           <div className="film__content">
-            <div className="film__meta flex flex-wrap justify-between">
+            <div className="film__meta flex flex-col sm:flex-row flex-wrap justify-between">
               <p className="film__meta--director">{film.Director}</p>
               <div className="flex">
                 <p className="film__meta--year">{film.Year}</p>

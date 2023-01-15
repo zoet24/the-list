@@ -1,5 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import defaultFilms from "../data/default-films.json";
+import axios from "axios";
 
 const AppContext = createContext();
 
@@ -12,16 +13,46 @@ export const ContextProvider = ({ children }) => {
   const [watchFilms, setWatchFilms] = useState([]);
   const [favFilms, setFavFilms] = useState([]);
   const [user, setUser] = useState({
+    _id: "",
     username: "",
     token: "",
   });
 
+  // Set initial films on watch list from MongoDB (TODO: tidy up and fix)
+  const getInitialWatchFilms = async (id) => {
+    const response = await axios.get(`/api/users/${id}/watchList`);
+    // console.log(response);
+
+    return response.data;
+  };
+
+  useEffect(() => {
+    const setInitialWatchFilms = async () => {
+      if (user._id !== "") {
+        // console.log("IN FUNCTION");
+        // console.log("user", user._id);
+        try {
+          const data = await getInitialWatchFilms(user._id);
+          // console.log(data);
+
+          setWatchFilms(data);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    };
+
+    setInitialWatchFilms();
+  }, [user]);
+
+  // Check if user is logged in (TODO: tidy up)
   useEffect(() => {
     const loggedIn = JSON.parse(localStorage.getItem("user"));
-    console.log(loggedIn);
+    // console.log(loggedIn);
     if (loggedIn) {
-      console.log("Logged in");
+      // console.log("Logged in");
       setUser({
+        _id: loggedIn._id,
         username: loggedIn.username,
         token: loggedIn.token,
       });
@@ -29,7 +60,7 @@ export const ContextProvider = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    console.log(user);
+    // console.log(user);
   }, [user]);
 
   // Query OMDB API with search input
@@ -82,30 +113,74 @@ export const ContextProvider = ({ children }) => {
 
   // Update films on watch list
   const updateWatchFilm = async (film) => {
-    const filmData = await getFilmRequest(film);
-    console.log(filmData);
+    const filmDataFull = await getFilmRequest(film);
+    const filmData = {
+      Title: filmDataFull.Title,
+      Year: filmDataFull.Year,
+      Runtime: filmDataFull.Runtime,
+      Genre: filmDataFull.Genre,
+      Director: filmDataFull.Director,
+      Actors: filmDataFull.Actors,
+      Plot: filmDataFull.Plot,
+      Poster: filmDataFull.Poster,
+      imdbRating: filmDataFull.imdbRating,
+      imdbID: filmDataFull.imdbID,
+    };
+
     const isFilmInList = await watchFilms.filter(
       (item) => item.Title === filmData.Title
     );
 
     if (isFilmInList.length == 0) {
-      const newWatchList = watchFilms.concat(filmData);
-      setWatchFilms(newWatchList);
+      try {
+        const newWatchList = watchFilms.concat(filmData);
+        // console.log(newWatchList);
 
-      console.log(newWatchList);
+        const formData = {
+          watchList: newWatchList,
+        };
+        const response = await axios.put(
+          `/api/users/${user._id}/watchList`,
+          formData
+        );
+        // console.log(response);
+        setWatchFilms(newWatchList);
+      } catch (error) {
+        // console.log(error);
+      }
     } else {
       const newWatchList = watchFilms.filter(
         (item) => item.Title !== filmData.Title
       );
-      setWatchFilms(newWatchList);
-
       // console.log(newWatchList);
+
+      const formData = {
+        watchList: newWatchList,
+      };
+      const response = await axios.put(
+        `/api/users/${user._id}/watchList`,
+        formData
+      );
+      // console.log(response);
+      setWatchFilms(newWatchList);
     }
   };
 
   // Update films on watch list
   const updateFavFilm = async (film) => {
-    const filmData = await getFilmRequest(film);
+    const filmDataFull = await getFilmRequest(film);
+    const filmData = {
+      Title: filmDataFull.Title,
+      Year: filmDataFull.Year,
+      Runtime: filmDataFull.Runtime,
+      Genre: filmDataFull.Genre,
+      Director: filmDataFull.Director,
+      Actors: filmDataFull.Actors,
+      Plot: filmDataFull.Plot,
+      Poster: filmDataFull.Poster,
+      imdbRating: filmDataFull.imdbRating,
+      imdbID: filmDataFull.imdbID,
+    };
     const isFilmInList = await favFilms.filter(
       (item) => item.Title === filmData.Title
     );
@@ -123,7 +198,8 @@ export const ContextProvider = ({ children }) => {
 
   // Query watch films with watch search input
   const searchWatchFilms = (watchQuery) => {
-    console.log(watchQuery);
+    // console.log(watchQuery);
+    // console.log(watchFilms);
   };
 
   useEffect(() => {
