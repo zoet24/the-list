@@ -11,6 +11,26 @@ export const ContextProvider = ({ children }) => {
   const [films, setFilms] = useState([]);
   const [watchFilms, setWatchFilms] = useState([]);
   const [favFilms, setFavFilms] = useState([]);
+  const [user, setUser] = useState({
+    username: "",
+    token: "",
+  });
+
+  useEffect(() => {
+    const loggedIn = JSON.parse(localStorage.getItem("user"));
+    console.log(loggedIn);
+    if (loggedIn) {
+      console.log("Logged in");
+      setUser({
+        username: loggedIn.username,
+        token: loggedIn.token,
+      });
+    }
+  }, []);
+
+  useEffect(() => {
+    console.log(user);
+  }, [user]);
 
   // Query OMDB API with search input
   const searchFilmRequest = async (query) => {
@@ -21,7 +41,7 @@ export const ContextProvider = ({ children }) => {
       const response = await fetch(url);
       const responseJson = await response.json();
 
-      console.log(responseJson);
+      // console.log(responseJson);
 
       if (responseJson.Search) {
         setFilms(reorderFilms(responseJson.Search));
@@ -38,7 +58,7 @@ export const ContextProvider = ({ children }) => {
     const responseImdb = await fetch(urlImdb);
     const responseJsonImdb = await responseImdb.json();
 
-    console.log(responseJsonImdb);
+    // console.log(responseJsonImdb);
 
     return responseJsonImdb;
   };
@@ -63,6 +83,7 @@ export const ContextProvider = ({ children }) => {
   // Update films on watch list
   const updateWatchFilm = async (film) => {
     const filmData = await getFilmRequest(film);
+    console.log(filmData);
     const isFilmInList = await watchFilms.filter(
       (item) => item.Title === filmData.Title
     );
@@ -78,7 +99,7 @@ export const ContextProvider = ({ children }) => {
       );
       setWatchFilms(newWatchList);
 
-      console.log(newWatchList);
+      // console.log(newWatchList);
     }
   };
 
@@ -130,11 +151,13 @@ export const ContextProvider = ({ children }) => {
         films,
         watchFilms,
         favFilms,
+        user,
         updateWatchFilm,
         updateFavFilm,
         setQuery,
         setWatchQuery,
         setFavQuery,
+        setUser,
       }}
     >
       {children}

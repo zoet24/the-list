@@ -7,6 +7,7 @@ import { ContextProvider } from "./context/AppContext";
 import Search from "./pages/search/Search";
 import Watch from "./pages/watch/Watch";
 import Fav from "./pages/fav/Fav";
+import Login from "./pages/login/Login";
 
 // Components
 import Navbar from "./components/navbar/Navbar";
@@ -22,6 +23,7 @@ const App = () => {
             <Route path="/" element={<Search />} />
             <Route path="/watch" element={<Watch />} />
             <Route path="/fav" element={<Fav />} />
+            <Route path="/login" element={<Login />} />
           </Routes>
         </main>
         <Navbar />
